@@ -29,7 +29,9 @@ def preselect(directory: str, filenames: list, keywords: list):
             c = sum([raw_doc.count(keyword) for keyword in keywords])
         # Arbitrary criteria, manually check excluded docs!
         if c > 50 and len(raw_doc) <= 1000000:
-            selected.append(raw_doc)
+            filename = name.removeprefix("CPP-BT_Bundestag_Plenarprotokoll_")\
+                .removesuffix(".txt")
+            selected.append((filename, raw_doc))
         else:
             excluded.append(name)
     return selected, excluded
@@ -37,10 +39,11 @@ def preselect(directory: str, filenames: list, keywords: list):
 
 def get_raw_sents(preselected: list):
     raw_sents = []
-    for raw_doc in preselected:
+    for filename, raw_doc in preselected:
         doc = nlp(raw_doc)
         sents = [sent.text for sent in doc.sents if not exclude(sent.text)]
-        raw_sents.extend(sents)
+        for sent in sents:
+            raw_sents.append((filename, sent))
     return raw_sents
 
 

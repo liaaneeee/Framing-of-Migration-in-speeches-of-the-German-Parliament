@@ -1,6 +1,7 @@
 import json
+import pandas as pd
 import spacy
-import csv
+
 import preselect
 
 nlp = spacy.load('de_core_news_sm')
@@ -23,27 +24,23 @@ def preprocess(string):
 
 def extract_sents(raw_sents: list, keywords: list):
     extracted = []
-    for sent in raw_sents:
+    for filename, sent in raw_sents:
         if sent[0].isupper():
             for keyword in keywords:
                 match = sent.count(keyword)
                 if match:
-                    extracted.append(preprocess(sent))
+                    extracted.append([filename, preprocess(sent)])
                     break
     return extracted
 
 
 def save_to_csv(sents: list, filename: str):
-    fields = ['Sentence']
-    rows = [[sent] for sent in sents]
-    with open(filename, "w") as f:
-        write = csv.writer(f)
-        write.writerow(fields)
-        write.writerows(rows)
+    df = pd.DataFrame(sents, columns=["Term_NDoc_Date", "Sentence"])
+    df.to_csv(filename)
 
 
 if __name__ == '__main__':
     raw_sentences = read_json("raw_sents.json")
-    keywords = preselect.return_keywords('stichwortliste.csv')
+    keywords = preselect.return_keywords("stichwortliste.csv")
     extracted_sents = extract_sents(raw_sentences, keywords)
     save_to_csv(extracted_sents, "extracted_sents.csv")
