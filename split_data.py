@@ -10,6 +10,7 @@ def split_df(data, n):
         sample = data.iloc[(i*50):(i+1)*50, :]
         samples.append(sample)
         sample["Frame"] = ["" for j in range(50)]
+        sample.drop("Unnamed: 0", axis=1, inplace=True)
     return samples
 
 
