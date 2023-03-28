@@ -20,7 +20,7 @@ def remove_quotes(data):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv("extracted_sents.csv")
+    df = pd.read_csv("../preselection&extraction/extracted_sents.csv")
     data = df.iloc[:500, :]
     sent_samples = split_df(data, 10)
     path = pathlib.Path("samples")
