@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import spacy
 
-import preselect
+from preselection import preselect
 
 nlp = spacy.load('de_core_news_sm')
 
@@ -41,6 +41,7 @@ def save_to_csv(sents: list, filename: str):
 
 if __name__ == '__main__':
     raw_sentences = read_json("raw_sents.json")
-    keywords = preselect.return_keywords("stichwortliste.csv")
+    keywords = preselect.return_keywords(
+        "preselection&extraction/stichwortliste.csv")
     extracted_sents = extract_sents(raw_sentences, keywords)
     save_to_csv(extracted_sents, "extracted_sents.csv")

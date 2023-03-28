@@ -5,16 +5,16 @@ import json
 nlp = spacy.load('de_core_news_sm')
 
 
-def return_keywords(file: str):
-    with open(file, encoding='latin1') as f:
+def return_keywords(file: str, encoding):
+    with open(file, encoding) as f:
         reader = csv.reader(f)
         keywords = [row[0] for row in reader if row][1:]
     return keywords
 
 
 # Extract filenames of protocols from 2015-2017
-def return_filenames(file: str):
-    with open(file, encoding='latin1') as f:
+def return_filenames(file: str, encoding):
+    with open(file, encoding) as f:
         reader = csv.reader(f)
         docs = [row[0].strip() for row in reader][3:]
     return docs
@@ -61,9 +61,9 @@ def save_raw_sents(raw_sents: list, filename: str):
 
 if __name__ == '__main__':
     # Extract filenames
-    my_filenames = return_filenames("stichwort-treffer.csv")
+    my_filenames = return_filenames("stichwort-treffer.csv", 'latin1')
     # Extract keywords
-    my_keywords = return_keywords('stichwortliste.csv')
+    my_keywords = return_keywords('stichwortliste.csv', 'latin1')
     # Preselection
     selected_docs, excluded_docs = preselect(
         "CPP-BT_2021-02-17_DE_TXT_Datensatz",
