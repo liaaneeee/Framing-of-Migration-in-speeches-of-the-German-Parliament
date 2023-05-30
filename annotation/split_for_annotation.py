@@ -21,9 +21,12 @@ def remove_quotes(data):
 
 if __name__ == '__main__':
     df = pd.read_csv("../preselection&extraction/extracted_sents.csv")
-    data = df.iloc[:500, :]
+    # data = df.iloc[:500, :]
+    data = df.iloc[500:1001, :]
     sent_samples = split_df(data, 10)
-    path = pathlib.Path("samples")
+    # path = pathlib.Path("samples")
+    path = pathlib.Path("more_samples")
     path.mkdir(parents=True, exist_ok=True)
     for i, sample in enumerate(sent_samples):
-        sample.to_csv(f"samples/sample{i+1}.csv", sep="\t")
+        # sample.to_csv(f"samples/sample{i + 1}.csv", sep="\t")
+        sample.to_csv(f"more_samples/sample{i+1}.csv", sep="\t")
